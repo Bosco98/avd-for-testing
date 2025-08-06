@@ -27,12 +27,13 @@ RUN mkdir -p ${ANDROID_SDK_ROOT}/cmdline-tools && \
 
 
 # Accept licenses and install emulator, platform tools, and system image
-RUN yes | $ANDROID_SDK_ROOT/cmdline-tools/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT --licenses
-RUN $ANDROID_SDK_ROOT/cmdline-tools/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT \
+RUN yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT --licenses
+
+RUN $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT \
     "platform-tools" "emulator" "system-images;android-33;default;x86_64"
 
 # Create Android Virtual Device (AVD)
-RUN echo "no" | $ANDROID_SDK_ROOT/cmdline-tools/bin/avdmanager create avd -n test -k "system-images;android-33;default;x86_64" --device "pixel"
+RUN echo "no" | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/avdmanager create avd -n test -k "system-images;android-33;default;x86_64" --device "pixel"
 
 # Expose ADB ports only
 EXPOSE 5554 5555
