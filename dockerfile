@@ -34,7 +34,9 @@ RUN sdkmanager --sdk_root=$ANDROID_SDK_ROOT \
     "platform-tools" "emulator" "system-images;android-33;default;x86_64"
 
 # Create Android Virtual Device (AVD)
-RUN echo "no" | avdmanager create avd -n test -k "system-images;android-33;default;x86_64" --device "pixel"
+RUN echo "no" | avdmanager create avd -n test -k "system-images;android-33;default;x86_64" --device "pixel" && \
+    echo "hw.ramSize=2048" >> /root/.android/avd/test.avd/config.ini
+
 
 # Expose ADB and emulator ports
 EXPOSE 5554 5555
