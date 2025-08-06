@@ -16,13 +16,15 @@ ENV ANDROID_SDK_ROOT /opt/android-sdk
 ENV PATH "$PATH:$ANDROID_SDK_ROOT/emulator:$ANDROID_SDK_ROOT/tools:$ANDROID_SDK_ROOT/tools/bin:$ANDROID_SDK_ROOT/platform-tools"
 
 # Download and install Android SDK
-RUN mkdir -p $ANDROID_SDK_ROOT && \
-    cd $ANDROID_SDK_ROOT && \
+WORKDIR /opt
+RUN mkdir -p ${ANDROID_SDK_ROOT}/cmdline-tools && \
     wget -q https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -O cmdline-tools.zip && \
-    unzip cmdline-tools.zip && \
-    mkdir -p cmdline-tools && \
-    mv cmdline-tools/* cmdline-tools/ && \
-    rm cmdline-tools.zip
+    unzip cmdline-tools.zip -d cmdline-tools && \
+    mkdir -p ${ANDROID_SDK_ROOT}/cmdline-tools/latest && \
+    mv cmdline-tools/cmdline-tools/* ${ANDROID_SDK_ROOT}/cmdline-tools/latest/ && \
+    rm -rf cmdline-tools cmdline-tools.zip
+
+
 
 # Accept licenses and install emulator, platform tools, and system image
 RUN yes | $ANDROID_SDK_ROOT/cmdline-tools/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT --licenses
